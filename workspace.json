@@ -1,0 +1,130 @@
+{
+  "version": 2,
+  "projects": {
+    "stattrack": {
+      "root": "apps/stattrack",
+      "sourceRoot": "apps/stattrack/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/stattrack",
+            "index": "apps/stattrack/src/index.html",
+            "baseHref": "/",
+            "main": "apps/stattrack/src/main.tsx",
+            "polyfills": "apps/stattrack/src/polyfills.ts",
+            "tsConfig": "apps/stattrack/tsconfig.app.json",
+            "assets": [
+              "apps/stattrack/src/favicon.ico",
+              "apps/stattrack/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/stattrack/src/environments/environment.ts",
+                  "with": "apps/stattrack/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "stattrack:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "stattrack:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/stattrack/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/stattrack"],
+          "options": {
+            "jestConfig": "apps/stattrack/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stattrack-e2e": {
+      "root": "apps/stattrack-e2e",
+      "sourceRoot": "apps/stattrack-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/stattrack-e2e/cypress.json",
+            "devServerTarget": "stattrack:serve",
+            "tsConfig": "apps/stattrack-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "stattrack:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/stattrack-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styled-components"
+      },
+      "library": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "stattrack"
+}
